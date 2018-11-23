@@ -92,7 +92,7 @@ function parseIfStatement(data, model) {
         });
     }
     else {
-        parseData(data.consequent.expression, model);
+        parseData(data.consequent, model);
     }
 
     if (data.alternate !== null) {
