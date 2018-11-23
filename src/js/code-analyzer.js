@@ -125,7 +125,7 @@ function parseElseIfStatement(data, model) {
         });
     }
     else {
-        parseData(data.consequent.expression, model);
+        parseData(data.consequent, model);
     }
     if (data.alternate !== null) {
         if ((data.alternate.type).localeCompare('IfStatement') === 0) {
