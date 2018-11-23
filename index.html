@@ -1,62 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            height: 100%;
+        }
 
-        <style>
-            table {
-                width: 100%;
-                height: 100%;
-            }
+        .textAreaWrapper {
+            width: 100%;
+            height: 80vh;
+        }
 
-            .textAreaWrapper {
-                width: 100%;
-                height: 80vh;
-            }
+        textarea {
+            width: 80%;
+            height: 95%;
+        }
+    </style>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-            textarea {
-                width: 80%;
-                height: 95%;
-            }
-        </style>
-    </head>
-    <body>
-        <table>
-            <tr>
-                <td>
-                    <div>
-                        <label>Enter code here</label>
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        <label>Parsed code here</label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="textAreaWrapper">
-                        <textarea id="codePlaceholder" title="Enter code here"></textarea>
-                    </div>
-                </td>
-                <td>
-                    <div class="textAreaWrapper">
-                        <textarea id="parsedCode" title="Parse code"></textarea>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>
-                        <button id="codeSubmissionButton">Parse code</button>
-                    </div>
-                </td>
-                <td>
-                </td>
-            </tr>
-        </table>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-        <script src="dist/bundle.js"></script>
-    </body>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            <div>
+                <label>Enter code here</label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="textAreaWrapper">
+                <textarea id="codePlaceholder" title="Enter code here"></textarea>
+            </div>
+        </td>
+        <td>
+            <table id="modelTable" class="table table-striped">
+                <tr>
+                    <th scope="col">Line</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Condition</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div>
+                <button id="codeSubmissionButton">Parse code</button>
+            </div>
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
+
+<script src="dist/bundle.js"></script>
+</body>
 </html>
