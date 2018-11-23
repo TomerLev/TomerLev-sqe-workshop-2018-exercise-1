@@ -138,7 +138,7 @@ function parseElseIfStatement(data, model) {
 }
 
 function parseForStatement(data, model) {
-    insertMapIntoModel(data.loc.start.line, 'ForStatement', '', escodegen.generate(data.init) + ';' +
+    insertMapIntoModel(data.loc.start.line, 'ForStatement', '', escodegen.generate(data.init) +
         escodegen.generate(data.test) + ';' + escodegen.generate(data.update), '', model);
     data.body.body.forEach(function (element) {
         parseData(element, model);
