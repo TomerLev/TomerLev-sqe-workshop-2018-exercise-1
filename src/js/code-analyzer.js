@@ -63,13 +63,13 @@ function parseVariableDeclaration(data, model) {
 
 function parseExpressionStatement(data, model) {
     let expressionType = data.expression.type;
-    switch (expressionType) {
-    case 'UpdateExpression':
+    if(expressionType.localeCompare('UpdateExpression') === 0)
+    {
         parseUpdateExpression(data.expression, model);
-        break;
-    case 'AssignmentExpression':
+    }
+    else
+    {
         parseAssignmentExpression(data.expression, model);
-        break;
     }
 }
 
@@ -143,20 +143,28 @@ function parseElseIfStatement(data, model) {
 }
 
 function parseForStatement(data, model) {
-    insertMapIntoModel(data.loc.start.line, 'ForStatement', '', escodegen.generate(data.init) + ';' +
-        escodegen.generate(data.test) + ';' + escodegen.generate(data.update), '', model);
-    data.body.body.forEach(function (element) {
-        parseData(element, model);
-    });
+    if (data.init.type.localeCompare('VariableDeclaration') === 0) {
+        insertMapIntoModel(data.loc.start.line, 'ForStatement', '', escodegen.generate(data.init) +
+            escodegen.generate(data.test) + ';' + escodegen.generate(data.update), '', model);
+        data.body.body.forEach(function (element) {
+            parseData(element, model);
+        });
+    }
+    else {
+        insertMapIntoModel(data.loc.start.line, 'ForStatement', '', escodegen.generate(data.init) + ';' +
+            escodegen.generate(data.test) + ';' + escodegen.generate(data.update), '', model);
+        data.body.body.forEach(function (element) {
+            parseData(element, model);
+        });
+    }
+
 }
 
 function parseUpdateExpression(data, model) {
-    if(data.operator.localeCompare('++') === 0)
-    {
+    if (data.operator.localeCompare('++') === 0) {
         insertMapIntoModel(data.loc.start.line, 'UpdateExpression', escodegen.generate(data.argument), '', escodegen.generate(data.argument) + ' + 1', model);
     }
-    else
-    {
+    else {
         insertMapIntoModel(data.loc.start.line, 'UpdateExpression', escodegen.generate(data.argument), '', escodegen.generate(data.argument) + ' - 1', model);
     }
 }

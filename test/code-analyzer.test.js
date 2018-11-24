@@ -30,7 +30,7 @@ describe('The javascript parser', () => {
             '{"Line":1,"Type":"AssignmentExpression","Name":"Y","Condition":"","Value":"Y + 2"}]'
         );
     });
-    it('parseForStatement Simple Test', () => {
+    it('parseForStatement Simple Test 1', () => {
         let code = 'for(i=0;i<5;i++){}';
         let model = [];
         parseForStatement(esprima.parseScript(code, {loc: true}).body[0], model);
@@ -39,13 +39,32 @@ describe('The javascript parser', () => {
             '[{"Line":1,"Type":"ForStatement","Name":"","Condition":"i = 0;i < 5;i++","Value":""}]'
         );
     });
-    it('parseForStatement Advanced Test', () => {
+    it('parseForStatement Simple Test 2', () => {
+        let code = 'for(let i=0;i<5;i++){}';
+        let model = [];
+        parseForStatement(esprima.parseScript(code, {loc: true}).body[0], model);
+        assert.equal(
+            JSON.stringify(model),
+            '[{"Line":1,"Type":"ForStatement","Name":"","Condition":"let i = 0;i < 5;i++","Value":""}]'
+        );
+    });
+    it('parseForStatement Advanced Test 1', () => {
         let code = 'for(i=0;i<5;i++){x=x+5;}';
         let model = [];
         parseForStatement(esprima.parseScript(code, {loc: true}).body[0], model);
         assert.equal(
             JSON.stringify(model),
             '[{"Line":1,"Type":"ForStatement","Name":"","Condition":"i = 0;i < 5;i++","Value":""},' +
+            '{"Line":1,"Type":"AssignmentExpression","Name":"x","Condition":"","Value":"x + 5"}]'
+        );
+    });
+    it('parseForStatement Advanced Test 2', () => {
+        let code = 'for(let i=0;i<5;i++){x=x+5;}';
+        let model = [];
+        parseForStatement(esprima.parseScript(code, {loc: true}).body[0], model);
+        assert.equal(
+            JSON.stringify(model),
+            '[{"Line":1,"Type":"ForStatement","Name":"","Condition":"let i = 0;i < 5;i++","Value":""},' +
             '{"Line":1,"Type":"AssignmentExpression","Name":"x","Condition":"","Value":"x + 5"}]'
         );
     });
