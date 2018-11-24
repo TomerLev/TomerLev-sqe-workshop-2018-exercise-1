@@ -59,7 +59,7 @@ describe('The javascript parser', () => {
             '{"Line":1,"Type":"VariableDeclaration","Name":"arr","Condition":"","Value":""}]'
         );
     });
-    it('parseFunctionDeclaration Advanced Test', () => {
+    it('parseFunctionDeclaration Advanced Test 1', () => {
         let code = 'function mergeSort (arr){return arr[0]+1;}';
         let model = [];
         parseFunctionDeclaration(esprima.parseScript(code, {loc: true}).body[0], model);
@@ -68,6 +68,17 @@ describe('The javascript parser', () => {
             '[{"Line":1,"Type":"FunctionDeclaration","Name":"mergeSort","Condition":"","Value":""},' +
             '{"Line":1,"Type":"VariableDeclaration","Name":"arr","Condition":"","Value":""},' +
             '{"Line":1,"Type":"ReturnStatement","Name":"","Condition":"","Value":"arr[0] + 1"}]'
+        );
+    });
+    it('parseFunctionDeclaration Advanced Test 2', () => {
+        let code = 'function mergeSort (arr){return ;}';
+        let model = [];
+        parseFunctionDeclaration(esprima.parseScript(code, {loc: true}).body[0], model);
+        assert.equal(
+            JSON.stringify(model),
+            '[{"Line":1,"Type":"FunctionDeclaration","Name":"mergeSort","Condition":"","Value":""},' +
+            '{"Line":1,"Type":"VariableDeclaration","Name":"arr","Condition":"","Value":""},' +
+            '{"Line":1,"Type":"ReturnStatement","Name":"","Condition":"","Value":""}]'
         );
     });
     it('parseVariableDeclaration Simple Test 1', () => {
@@ -103,7 +114,7 @@ describe('The javascript parser', () => {
         parseExpressionStatement(esprima.parseScript(code, {loc: true}).body[0], model);
         assert.equal(
             JSON.stringify(model),
-            '[{"Line":1,"Type":"UpdateExpression","Name":"num","Condition":"","Value":""}]'
+            '[{"Line":1,"Type":"UpdateExpression","Name":"num","Condition":"","Value":"num + 1"}]'
         );
     });
     it('parseUpdateExpression Simple Test 2', () => {
@@ -112,7 +123,25 @@ describe('The javascript parser', () => {
         parseExpressionStatement(esprima.parseScript(code, {loc: true}).body[0], model);
         assert.equal(
             JSON.stringify(model),
-            '[{"Line":1,"Type":"UpdateExpression","Name":"num","Condition":"","Value":""}]'
+            '[{"Line":1,"Type":"UpdateExpression","Name":"num","Condition":"","Value":"num + 1"}]'
+        );
+    });
+    it('parseUpdateExpression Simple Test 3', () => {
+        let code = 'num--;';
+        let model = [];
+        parseExpressionStatement(esprima.parseScript(code, {loc: true}).body[0], model);
+        assert.equal(
+            JSON.stringify(model),
+            '[{"Line":1,"Type":"UpdateExpression","Name":"num","Condition":"","Value":"num - 1"}]'
+        );
+    });
+    it('parseUpdateExpression Simple Test 4', () => {
+        let code = '--num;';
+        let model = [];
+        parseExpressionStatement(esprima.parseScript(code, {loc: true}).body[0], model);
+        assert.equal(
+            JSON.stringify(model),
+            '[{"Line":1,"Type":"UpdateExpression","Name":"num","Condition":"","Value":"num - 1"}]'
         );
     });
     it('parseAssignmentExpression Simple Test', () => {

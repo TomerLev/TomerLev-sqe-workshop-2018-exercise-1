@@ -74,7 +74,12 @@ function parseExpressionStatement(data, model) {
 }
 
 function parseReturnStatement(data, model) {
-    insertMapIntoModel(data.loc.start.line, 'ReturnStatement', '', '', escodegen.generate(data.argument), model);
+    if (data.argument === null) {
+        insertMapIntoModel(data.loc.start.line, 'ReturnStatement', '', '', '', model);
+    }
+    else {
+        insertMapIntoModel(data.loc.start.line, 'ReturnStatement', '', '', escodegen.generate(data.argument), model);
+    }
 }
 
 function parseWhileStatement(data, model) {
@@ -146,18 +151,25 @@ function parseForStatement(data, model) {
 }
 
 function parseUpdateExpression(data, model) {
-    insertMapIntoModel(data.loc.start.line, 'UpdateExpression', data.argument.name, '', '', model);
+    if(data.operator.localeCompare('++') === 0)
+    {
+        insertMapIntoModel(data.loc.start.line, 'UpdateExpression', escodegen.generate(data.argument), '', escodegen.generate(data.argument) + ' + 1', model);
+    }
+    else
+    {
+        insertMapIntoModel(data.loc.start.line, 'UpdateExpression', escodegen.generate(data.argument), '', escodegen.generate(data.argument) + ' - 1', model);
+    }
 }
 
 function parseAssignmentExpression(data, model) {
     if (data.operator.localeCompare('+=') === 0) {
-        insertMapIntoModel(data.loc.start.line, 'AssignmentExpression', data.left.name, '', data.left.name + ' + ' + escodegen.generate(data.right), model);
+        insertMapIntoModel(data.loc.start.line, 'AssignmentExpression', escodegen.generate(data.left), '', escodegen.generate(data.left) + ' + ' + escodegen.generate(data.right), model);
     }
     else if (data.operator.localeCompare('-=') === 0) {
-        insertMapIntoModel(data.loc.start.line, 'AssignmentExpression', data.left.name, '', data.left.name + ' - ' + escodegen.generate(data.right), model);
+        insertMapIntoModel(data.loc.start.line, 'AssignmentExpression', escodegen.generate(data.left), '', escodegen.generate(data.left) + ' - ' + escodegen.generate(data.right), model);
     }
     else {
-        insertMapIntoModel(data.loc.start.line, 'AssignmentExpression', data.left.name, '', escodegen.generate(data.right), model);
+        insertMapIntoModel(data.loc.start.line, 'AssignmentExpression', escodegen.generate(data.left), '', escodegen.generate(data.right), model);
     }
 }
 
