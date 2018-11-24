@@ -63,12 +63,10 @@ function parseVariableDeclaration(data, model) {
 
 function parseExpressionStatement(data, model) {
     let expressionType = data.expression.type;
-    if(expressionType.localeCompare('UpdateExpression') === 0)
-    {
+    if (expressionType.localeCompare('UpdateExpression') === 0) {
         parseUpdateExpression(data.expression, model);
     }
-    else
-    {
+    if (expressionType.localeCompare('AssignmentExpression') === 0) {
         parseAssignmentExpression(data.expression, model);
     }
 }
